@@ -93,7 +93,7 @@ void Install_UpdateClient()
 
 	DWORD ExecuteOurPacketsOnlyOffset = D2Client::GetAddress(0x84D96);
 
-	// execute if it's our packet else continue
+	// Execute if it's our packet else continue
 	Memory::SetCursor(ExecuteOurPacketsOnlyOffset);
 	Memory::ChangeCallA(0xCF, (DWORD)caller_handleClientUpdate_111);
 

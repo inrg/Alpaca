@@ -769,6 +769,29 @@ Unit* __stdcall initGetNextItem(Unit* ptChar, Unit* ptItem)
 	return getNextItem(ptChar,ptItem);
 }
 
+DWORD __stdcall carry1Limit(Unit* ptChar, Unit* ptItemParam, DWORD itemNum, BYTE page)
+{
+	if (!ptChar) return 0;
+	Unit* ptItem = ptItemParam ? ptItemParam : D2GameGetObject(PCGame, UNIT_ITEM, itemNum);
+	if ((page != 4) && (D2Common::D2GetItemQuality(ptItem) == 7) && ptChar)
+	{
+		auto dataTables = D2Common::GetDataTables();
+		int uniqueID = D2Common::D2GetUniqueID(ptItem);
+		if ((uniqueID >= 0) && (uniqueID < (int)dataTables->nbUniqueItems))
+		{
+			UniqueItemsBIN*	uniqueItems = dataTables->uniqueItems + uniqueID;
+			if (uniqueItems && (uniqueItems->carry1 == 1))
+			{
+				ItemsBIN* ptItemsBin = D2Common::D2GetItemsBIN(ptItem->nTxtFileNo);
+				Unit* ptFirstItem = D2InventoryGetFirstItem(PCInventory);
+				if (ptItemsBin && ptFirstItem)
+					return D2Game::D2VerifIfNotCarry1(ptItem, ptItemsBin, ptFirstItem);
+			}
+		}
+	}
+	return 0;
+}
+
 FCT_ASM ( caller_initGetNextItem )
 	PUSH DWORD PTR SS:[ESP+0x20]
 	PUSH DWORD PTR SS:[ESP+0xC]
@@ -786,6 +809,72 @@ FCT_ASM ( caller_getNextItem )
 	RETN 4
 }}
 
+FCT_ASM(caller_carry1Limit_111)
+PUSH DWORD PTR SS : [ESP + 0x08]//page
+PUSH 0//EDI
+PUSH DWORD PTR SS : [ESP + 0x0C]
+PUSH ESI//ptChar
+CALL carry1Limit
+TEST EAX, EAX
+JNZ	end_carry1Limit
+JMP D2Common::D2ItemSetPage
+end_carry1Limit :
+ADD ESP, 0xC
+XOR EAX, EAX
+POP EDI
+POP EBX
+POP ESI
+POP EBP
+RETN 8
+}}
+
+FCT_ASM(caller_carry1LimitSwap_112)
+PUSH EAX
+PUSH DWORD PTR SS : [ESP + 0x1C]
+PUSH 0
+PUSH ESI//ptChar
+CALL carry1Limit
+TEST EAX, EAX
+JNZ	end_carry1Limit
+JMP D2ItemGetPage
+end_carry1Limit :
+ADD ESP, 8
+XOR EAX, EAX
+POP EDI
+POP EBP
+POP ESI
+POP EBX
+POP ECX
+RETN 8
+}}
+
+FCT_ASM(caller_carry1LimitWhenDrop_111)
+	PUSH 0
+	PUSH 0
+	PUSH DWORD PTR SS : [ESP + 0x10]
+	PUSH ESI
+	CALL carry1Limit
+	TEST EAX, EAX
+	JNZ	end_carry1Limit
+	JMP D2Common::D2CanPutItemInInv
+end_carry1Limit:
+	XOR EAX, EAX
+	RETN 0x1C
+}}
+
+FCT_ASM(caller_carry1OutOfStash_111)
+	PUSH EDI
+	CALL D2ItemGetPage
+	CMP AL, 4
+	JNZ continue_carry1OutOfStash
+	ADD DWORD PTR SS : [ESP], 0x17C
+	RETN
+continue_carry1OutOfStash:
+	MOV ESI, DWORD PTR SS : [ESP + 0x10]
+	TEST ESI, ESI
+	RETN
+}}
+
 void Install_MultiPageStash()
 {
 	static bool isInstalled = false;
@@ -794,9 +883,33 @@ void Install_MultiPageStash()
 	Install_PlayerCustomData();
 	Install_InterfaceStash();
 
+	log_msg("[Patch] Multi Page Stash\n");
+
 	changeToSelectedStash = changeToSelectedStash_10;
 
+	DWORD PutCarryInventoryOffset = D2Game::GetAddress(0x6B013);
+	DWORD PutCarryInventorySwapOffset = D2Game::GetAddress(0x6BC78);
+	DWORD DropCarryInventoryDropCubeOffset = D2Game::GetAddress(0xB7B15);
+	DWORD VerifyStashPagePickupOffset = D2Game::GetAddress(0xB301B);
+
+	// Cannot put 2 items carry1 in inventory
+	Memory::SetCursor(PutCarryInventoryOffset);
+	Memory::ChangeCallB((DWORD)D2Common::D2ItemSetPage, (DWORD)caller_carry1Limit_111);
+
+	// Cannot put 2 items carry1 in inventory by swapping
+	Memory::SetCursor(PutCarryInventorySwapOffset);
+	Memory::ChangeCallB((DWORD)D2Common::D2ItemGetPage, (DWORD)caller_carry1LimitSwap_112);
+
+	// Cannot put 2 items carry1 in inventory when drop cube
+	Memory::SetCursor(DropCarryInventoryDropCubeOffset);
+	Memory::ChangeCallB((DWORD)D2Common::D2CanPutItemInInv, (DWORD)caller_carry1LimitWhenDrop_111);
+
+	// Verif only carry1 out of stash page when pick up an item
+	Memory::SetCursor(VerifyStashPagePickupOffset);
+	Memory::ChangeByte(0x8B, 0xE8);
+	Memory::ChangeCallA(0x850C2474, (DWORD)caller_carry1OutOfStash_111);
+	Memory::ChangeByte(0xF6, 0x90);
+
+	if (active_logFileMemory) log_msg("\n");
 	isInstalled = true;
 }
-
-

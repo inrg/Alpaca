@@ -252,8 +252,6 @@ void Install_PlayerCustomData()
 	Memory::ChangeByte(0x8B, 0xE8);
 	Memory::ChangeCallA(0x52182454, (DWORD)caller_updateItem_111);
 
-	// TODO: Not sure if this variable is actually needed since I haven't been able to get a breakpoint to hit this.
-	// Will do more testing at a future date.
 	Memory::SetCursor(UpdateItemOffset2);
 	Memory::ChangeByte(0x8B, 0xE8);
 	Memory::ChangeCallA(0x52182454, (DWORD)caller_updateItemB_111);

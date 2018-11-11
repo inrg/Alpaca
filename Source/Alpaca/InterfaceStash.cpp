@@ -584,7 +584,7 @@ void Install_InterfaceStash()
 	Memory::SetCursor(OpenStashPageInitStateOffset);
 	Memory::ChangeByte(0x81, 0xE9);
 	Memory::ChangeCallA(0x104C4, (DWORD)initBtnsStates);
-	Memory::ChangeByte(0, 0x90);
+	Memory::ChangeByte(0x00, 0x90);
 
 	// init the search of print in green the item set name we have in stash
 	Memory::SetCursor(GreenSetItemSearchOffset);

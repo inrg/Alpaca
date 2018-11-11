@@ -83,7 +83,7 @@ void Install_BigStash()
 	// Modification of stash background
 	Memory::SetCursor(StashBackgroundOffset);
 	Memory::ChangeByte(0x68, 0xE8);
-	Memory::ChangeCallA(0x00000104, (DWORD)caller_changeTradeStash);
+	Memory::ChangeCallA(0x104, (DWORD)caller_changeTradeStash);
 
 	if (active_logFileMemory) log_msg("\n");
 	isInstalled = true;

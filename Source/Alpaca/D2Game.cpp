@@ -32,6 +32,7 @@ void D2Game::SetFunctions()
 	D2GameGetObject = (TD2GameGetObject)D2GameGetObject_111;
 	D2SaveGame = (TD2SaveGame)GetAddress(0xBE660);
 	ptClientTable = (NetClient**)GetAddress(0x1105E0);
+	D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1)GetAddress(0xB2F70);
 
 	D2SendPacketDirect = (TD2SendPacket)GetAddress(0xDB780);
 	D2LoadInventoryDirect = (TD2LoadInventory)GetAddress(0x3A4C0);
@@ -87,3 +88,4 @@ NetClient** D2Game::ptClientTable;
 D2Game::TD2SendPacket D2Game::D2SendPacketDirect;
 D2Game::TD2GameGetObject D2Game::D2GameGetObjectDirect;
 D2Game::TD2LoadInventory D2Game::D2LoadInventoryDirect;
+D2Game::TD2VerifIfNotCarry1 D2Game::D2VerifIfNotCarry1;

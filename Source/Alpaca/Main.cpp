@@ -68,10 +68,9 @@ extern "C" __declspec(dllexport) void* __stdcall Init(LPSTR IniName)
 	// Thanks to Necrolis @ PhrozenKeep for bringing this trick up.
 	//MessageBox(GetActiveWindow(), "The Alpacas have arrived!", "Alpaca", MB_APPLMODAL);
 
-	LoadParameters();
-
 	LibraryLoader::Init();
 	InitializeDiabloFunctions();
+	LoadParameters();
 	InstallAlpacaFunctions();
 
 	log_msg("Entering Diablo II\n");

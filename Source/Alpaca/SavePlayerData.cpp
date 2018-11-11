@@ -320,11 +320,11 @@ void Install_SavePlayerData()
 	DWORD ReceivedSaveFilesOffset = D2Client::GetAddress(0x448E6);
 	DWORD SaveMultiplayerPlayerCustomDataOffset = D2Client::GetAddress(0x829C2);
 
-	//Save single player custom data.
+	// Save single player custom data.
 	Memory::SetCursor(SaveSinglePlayerCustomDataOffset);
 	Memory::ChangeCallB((DWORD)Fog::D2FogGetSavePath, (DWORD)caller_SaveSPPlayerCustomData_111);
 
-	//Send SaveFiles
+	// Send SaveFiles
 	Memory::SetCursor(SendSaveFilesOffset1);
 	Memory::ChangeByte(0x8B, 0x90);
 	Memory::ChangeByte(0x44, 0xE8);
@@ -335,7 +335,7 @@ void Install_SavePlayerData()
 	Memory::ChangeByte(0x8E, 0xE8);
 	Memory::ChangeCallA(0x17C, (DWORD)caller_ManageNextPacketToSend);
 	
-	//Received SaveFiles
+	// Received SaveFiles
 	Memory::SetCursor(ReceivedSaveFilesOffset);
 	Memory::ChangeByte(0x0F, 0xE8);
 	Memory::ChangeCallA(0x0C2444B6, (DWORD)caller_ReceivedSaveFilesToSave_111);

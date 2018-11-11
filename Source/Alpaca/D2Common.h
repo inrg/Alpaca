@@ -36,10 +36,15 @@ public:
 	typedef void(__stdcall *TD2AddPlayerStat) (Unit* ptChar, DWORD statID, int amount, DWORD index);
 	typedef int(__stdcall *TD2GetPlayerStat) (Unit* ptChar, DWORD statID, DWORD index);
 	typedef void* (__stdcall *TD2CompileTxtFile) (DWORD unused, const char* filename, BINField* ptFields, DWORD* ptRecordCount, DWORD recordLength);
+	typedef void(__stdcall *TD2ItemSetPage) (Unit* ptItem, BYTE page);
 	typedef BYTE(__stdcall *TD2ItemGetPage) (Unit* ptUnit);
 	typedef DWORD(__stdcall *TD2SaveItem) (Unit* ptItem, saveBitField* data, DWORD startSize, DWORD p4, DWORD p5, DWORD p6);
 	typedef void* (__fastcall *TD2ReadFile) (DWORD unused, char* filename, DWORD* size, const char*, DWORD);
 	typedef DWORD(__stdcall *TD2GetItemLevel) (Unit* ptItem);
+	typedef DWORD(__stdcall *TD2GetItemQuality) (Unit* ptItem);
+	typedef int(__stdcall *TD2GetUniqueID) (Unit* ptItem);
+	typedef ItemsBIN*(__stdcall *TD2GetItemsBIN) (DWORD itemID);
+	typedef Unit*(__stdcall *TD2CanPutItemInInv) (Inventory* ptInventory, Unit* ptItem, DWORD p3, DWORD zero, Unit* ptUnit, const char* file, DWORD line);
 
 	static TD2InvAddItem D2InvAddItem;
 	static TD2InvRemoveItem D2InvRemoveItem;
@@ -53,12 +58,17 @@ public:
 	static TD2AddPlayerStat D2AddPlayerStat;
 	static TD2GetPlayerStat D2GetPlayerStat;
 	static TD2GetItemLevel D2GetItemLevel;
+	static TD2GetItemQuality D2GetItemQuality;
+	static TD2GetUniqueID D2GetUniqueID;
+	static TD2GetItemsBIN D2GetItemsBIN;
+	static TD2CanPutItemInInv D2CanPutItemInInv;
 
 	// Some functions use the base function directly
 	static TD2CompileTxtFile D2CompileTxtFileDirect;
 
 	// Some functions use the wrapped version
 	static TD2CompileTxtFile D2CompileTxtFile;
+	static TD2ItemSetPage D2ItemSetPage;
 	static TD2ItemGetPage D2ItemGetPage;
 	static TD2SaveItem D2SaveItem;
 	static TD2ReadFile D2ReadFile;
@@ -72,6 +82,8 @@ public:
 	static DWORD ptSkillsOffset;
 	static DWORD ptImageOffset;
 	static DWORD ptFrameOffset;
+
+	static DataTables* D2Common::GetDataTables();
 private:
 	static void SetFunctions();
 
@@ -85,4 +97,5 @@ private:
 	static TD2GetPlayerStat D2GetPlayerStatDirect;
 
 	static Unit* __stdcall D2GetRealItem_111(Unit* ptItem);
+	static DWORD SgptDataTablesOffset;
 };

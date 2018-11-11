@@ -39,6 +39,7 @@ bool active_CheckMemory = true;
 
 const char* S_GENERAL = "GENERAL";
 const char* S_active_logFile = "ActiveLogFile";
+const char* S_active_logFilePatches = "ActiveLogFilePatches";
 
 const char* S_STASH = "STASH";
 const char* S_nbPagesPerIndex = "NumberOfPagesPerIndex";
@@ -73,6 +74,7 @@ void LogParameterIntegerValue(const char* parameterName, DWORD parameterValue)
 
 void init_General(INIFile* iniFile, char* buffer, DWORD maxSize)
 {
+	// Active Log File
 	GetValueFromIni(iniFile, S_GENERAL, S_active_logFile, "0", buffer, maxSize);
 
 	// Temporarily save the log value into this value since we are still logging data
@@ -80,6 +82,11 @@ void init_General(INIFile* iniFile, char* buffer, DWORD maxSize)
 	active_logFileIniOriginal = IsEnabled(buffer);
 
 	LogParameterBooleanValue(S_active_logFile, active_logFileIniOriginal);
+
+	// Active Log File [Patches]
+	GetValueFromIni(iniFile, S_GENERAL, S_active_logFilePatches, "0", buffer, maxSize);
+	active_logFileMemory = IsEnabled(buffer);
+	LogParameterBooleanValue(S_active_logFilePatches, active_logFileMemory);
 }
 
 void init_Stash(INIFile* iniFile, char* buffer, DWORD maxSize)

@@ -149,12 +149,12 @@ void Install_AlpacaImagesFiles()
 	// Load custom images
 	Memory::SetCursor(LoadCustomImageOffset);
 	Memory::ChangeByte(0xB9, 0xE8);
-	Memory::ChangeCallA(0xC, (DWORD)caller_loadCustomImages);
+	Memory::ChangeCallA(0x0C, (DWORD)caller_loadCustomImages);
 
 	// Free custom images
 	Memory::SetCursor(FreeCustomImageOffset);
 	Memory::ChangeByte(0xB9, 0xE8);
-	Memory::ChangeCallA(0xC, (DWORD)caller_freeCustomImages);
+	Memory::ChangeCallA(0x0C, (DWORD)caller_freeCustomImages);
 
 	if (active_logFileMemory) log_msg("\n");
 	isInstalled = true;

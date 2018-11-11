@@ -1,17 +1,14 @@
-## Alpaca 2.1.1 | 1.13d
+## Alpaca 2.1.2 | 1.13d
 ##### By Jonathan Vasquez (fearedbliss)
-##### Released on Friday, November 9, 2018
+##### Released on Sunday, November 11, 2018
 
 ## Synopsis
 
 Alpaca is an Infinite Stash Mod for Diablo II: Lord of Destruction
 that is based off Yohann Nicolas' PlugY 11.02. It is a cleaned up,
-re-architected, and stabilized version of PlugY.
-
-Alpaca is a 1.13d modification and will not be upgraded to 1.14d+ due to the
-massive code differences and required time investment. However, the codebase
-is in a pretty good state and will be an excellent base for someone who does
-want to port it over.
+re-architected, and stabilized version of PlugY. Due to the significant
+code differences and required time investment, Alpaca will not be updated
+to 1.14+.
 
 Finally, Alpaca IS compatible with my [Diablo II Version Switcher: Cactus](https://github.com/fearedbliss/Cactus).
 If you want to use Alpaca for your 1.13d install (but also want to continue to play

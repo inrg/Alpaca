@@ -97,7 +97,9 @@ void updateSharedGold(DWORD goldAmount)
 
 int __stdcall commands(char* ptText)
 {
-	log_msg("Command : %s\n", ptText);
+	if (!D2Client::IsExpansion()) return 1;
+
+	log_msg("Command: %s\n", ptText);
 	Unit* ptChar = D2GetClientPlayer();
 
 	char command[MAX_CMD_SIZE];
@@ -223,15 +225,15 @@ int __stdcall commands(char* ptText)
 	return 1;
 }
 
-FCT_ASM(caller_Commands_111)
-TEST EAX, EAX
-JE MANAGESOUNDCHAOSDEBUG
-PUSH EDI
-CALL commands
-TEST EAX, EAX
-JNZ MANAGESOUNDCHAOSDEBUG
-ADD DWORD PTR SS : [ESP], 7
-MANAGESOUNDCHAOSDEBUG :
+FCT_ASM(caller_Commands_113d)
+	TEST EAX, EAX
+	JE MANAGESOUNDCHAOSDEBUG
+	PUSH EDI
+	CALL commands
+	TEST EAX, EAX
+	JNZ MANAGESOUNDCHAOSDEBUG
+	ADD DWORD PTR SS : [ESP], 7
+MANAGESOUNDCHAOSDEBUG:
 	RETN 8
 }}
 
@@ -249,7 +251,7 @@ void Install_Commands()
 	// Run custom commmand
 	Memory::SetCursor(CustomCommandOffset);
 	Memory::ChangeByte(0x83, 0xE8); 
-	Memory::ChangeCallA(0xC08508C4, (DWORD)caller_Commands_111);
+	Memory::ChangeCallA(0xC08508C4, (DWORD)caller_Commands_113d);
 
 	if (active_logFileMemory) log_msg("\n");
 	isInstalled = true;
