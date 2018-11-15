@@ -1,4 +1,4 @@
-## Alpaca 2.1.2 | 1.13d
+## Alpaca 2.1.2 | 1.13d ([Discord](https://discord.gg/B59qDKy), [Cactus](https://github.com/fearedbliss/Cactus))
 ##### By Jonathan Vasquez (fearedbliss)
 ##### Released on Sunday, November 11, 2018
 
@@ -80,12 +80,3 @@ play the char with Vanilla D2), the char will not open with this mod. Patches ar
 if you really want to support this. An empty character does forward, but I think there is something
 going on with the items that character has since normally the normal code will migrate those items
 forward (especially 1.09 -> 1.10+).
-
-## Links
-
-- [Discord](https://discord.gg/B59qDKy)
-- [Cactus](https://github.com/fearedbliss/Cactus)
-- [Succulent](https://github.com/fearedbliss/Succulent)
-- [Alpaca](https://github.com/fearedbliss/Alpaca)
-- [Singling](https://github.com/fearedbliss/Singling)
-- [Bliss Complete Collection](https://xyinn.org/diablo/Bliss_Complete_Collection.7z)
