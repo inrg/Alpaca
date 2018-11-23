@@ -1,0 +1,42 @@
+﻿  BigStash.cpp
+  Commands.cpp
+  Common.cpp
+  D2Client.cpp
+  D2CMP.cpp
+  D2Common.cpp
+  D2Functions.cpp
+  D2Game.cpp
+  D2gfx.cpp
+  D2Launch.cpp
+  D2Net.cpp
+  D2Win.cpp
+  ExtraPatches.cpp
+  LibraryLoader.cpp
+  Main.cpp
+  Error.cpp
+  ExtendedSaveFile.cpp
+  Fog.cpp
+  Game.cpp
+  InfinityStash.cpp
+  Compiling...
+  IniFile.cpp
+  InterfaceStash.cpp
+  LoadPlayerData.cpp
+  MainScreen.cpp
+  Memory.cpp
+  Parameters.cpp
+  PlayerCustomData.cpp
+  AlpacaFiles.cpp
+  SavePlayerData.cpp
+  SharedSaveFile.cpp
+  Storm.cpp
+  UpdateClient.cpp
+  UpdateServer.cpp
+  Utility.cpp
+  VersionUtility.cpp
+     Creating library D:\Users\Jonathan\Desktop\Alpaca\3. Source\Alpaca\Release\Alpaca.lib and object D:\Users\Jonathan\Desktop\Alpaca\3. Source\Alpaca\Release\Alpaca.exp
+  Generating code
+  All 416 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Alpaca.vcxproj -> D:\Users\Jonathan\Desktop\Alpaca\3. Source\Alpaca\Release\Alpaca.dll
+          1 file(s) copied.
